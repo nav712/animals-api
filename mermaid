@@ -1,0 +1,41 @@
+flowchart LR
+
+    subgraph ZOS[z/OS Mainframe]
+        SMF[SMF Records]
+        LOGS[Log Streams / Dump Datasets]
+        SMF --> LOGS
+    end
+
+    subgraph OFFLOAD[SMF Offload Pipeline]
+        TRANSFER[SFTP / Connect:Direct / Batch Offload]
+    end
+
+    subgraph ETL[Off-Host ETL + MXG Layer]
+        MXG[MXG Parsing + Transformation - SAS/Batch or MXG-Compatible Parser]
+        STAGE[Staging Files - CSV / Parquet / Avro]
+    end
+
+    subgraph DWH[Modern Analytics Data Warehouse]
+        RAW[Raw SMF Tables Decoded Fields]
+        CORE[Curated Star Schema - Workload, CPU, Storage, Db2, CICS]
+        BIZMETA[Business Metadata - App Owners, Cost Centers, SLAs]
+        COST[Cost Allocation Models - R4HA, LPAR Weighting, Dept Billing]
+    end
+
+    subgraph ANALYTICS[Analytics & Dashboards]
+        BI[BI Tools PowerBI / Tableau / Looker]
+        CUSTOM[Custom Dashboards\nReact + Tailwind + Plotly/Vega]
+        DS[Python Notebooks\nForecasting + ML]
+    end
+
+    LOGS --> TRANSFER
+    TRANSFER --> MXG
+    MXG --> STAGE
+    STAGE --> RAW
+    RAW --> CORE
+    CORE --> BI
+    CORE --> CUSTOM
+    CORE --> DS
+    BIZMETA --> CORE
+    COST --> BI
+    COST --> CUSTOM
