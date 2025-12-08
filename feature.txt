@@ -1,0 +1,18 @@
+Observe is not an internal Barclays product but an external one.
+
+Barclays’ internal documentation is available at:
+https://confluence.barcapint.com/spaces/SEARCH/pages/3497740252/Observe+-+DMZ+data+ingestion
+
+Their public website is: https://www.observeinc.com/
+
+Documentation: https://docs.observeinc.com/en/latest/content/common-topics/WelcometoObserve.html
+
+I have reviewed the available documentation in detail and cannot find any reference indicating direct support for MXG, z/OS, or SMF. Based on this, the only possible approaches would be:
+
+Pre-process SMF/MXG data through an ETL pipeline that transforms it into a format Observe accepts. This includes labeling/annotating all fields into schemas that Observe can interpret. This is by far the largest effort.
+
+Ingest the transformed data into Observe as custom logs or metrics.
+
+Create reports on top of the ingested, transformed dataset.
+
+Given this, I am not fully convinced that Observe would provide any meaningful advantage over tools such as SMT Data or EPV, which are already designed to work directly with SMF/MXG data. Observe would require significant custom work and a full PoC before we could even validate viability.
